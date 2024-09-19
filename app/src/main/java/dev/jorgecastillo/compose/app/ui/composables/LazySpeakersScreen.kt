@@ -23,7 +23,32 @@ import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 
 @Composable
 fun LazySpeakersScreen(speakers: List<Speaker>) {
-    
+    Scaffold(
+        topBar = {
+            TopAppBar {
+                Text("Speakers")
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {}) {
+                Icon(
+                    painter = rememberVectorPainter(image = Icons.Default.Add),
+                    contentDescription = stringResource(id = R.string.content_desc_fab_add_speaker)
+                )
+            }
+        },
+        content = { innerPadding ->
+            LazyColumn(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .testTag("SpeakersList")
+            ) {
+                items(speakers) { speaker ->
+                    SpeakerCard(speaker)
+                }
+            }
+        }
+    )
 }
 
 @Composable
