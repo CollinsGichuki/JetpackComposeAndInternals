@@ -40,12 +40,66 @@ import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 
 @Composable
 fun SpeakersScreen(speakers: List<Speaker>) {
-
+    Scaffold(
+        topBar = {
+            TopAppBar {
+                Text("Speakers")
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {}) {
+                Icon(
+                    painter = rememberVectorPainter(image = Icons.Default.Add),
+                    contentDescription = stringResource(id = R.string.content_desc_fab_add_speaker)
+                )
+            }
+        },
+        content = { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
+                    .testTag("SpeakersList")
+            ) {
+                speakers.forEach { SpeakerCard(it) }
+            }
+        }
+    )
 }
 
 @Composable
 fun SpeakerCard(speaker: Speaker, onClick: (Speaker) -> Unit = {}) {
-    
+    Card(
+        onClick = { onClick(speaker) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(dimensionResource(R.dimen.spacing_small))
+    ) {
+        Row(modifier = Modifier.padding(dimensionResource(id = R.dimen.spacing_regular))) {
+            Image(
+                painter = painterResource(id = avatarResForId(speaker.id)),
+                contentDescription = stringResource(
+                    id = R.string.content_desc_fab_add_speaker,
+                    speaker.name
+                ),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(dimensionResource(R.dimen.avatar_size))
+                    .clip(CircleShape)
+            )
+            Column(
+                modifier = Modifier.padding(dimensionResource(R.dimen.spacing_regular))
+            ) {
+                Text(
+                    style = MaterialTheme.typography.h6,
+                    text = speaker.name
+                )
+                Text(
+                    text = speaker.company
+                )
+            }
+        }
+    }
 }
 
 @SuppressLint("DiscouragedApi")
