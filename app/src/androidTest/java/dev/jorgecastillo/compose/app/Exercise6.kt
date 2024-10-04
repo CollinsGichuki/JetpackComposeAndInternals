@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,7 +40,23 @@ import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
  */
 fun Modifier.circledRainbowBorder(strokeWidth: Float): Modifier =
     drawWithContent {
-
+        drawCircle(color = Color.White, radius = size.width / 2 - strokeWidth)
+        drawContent()
+        drawCircle(
+            brush = Brush.verticalGradient(
+                listOf(
+                    Color(0xFFFF0023),
+                    Color(0xFFFF9800),
+                    Color(0xFFFFFF00),
+                    Color(0xFF4CAF50),
+                    Color(0xFF03A9F4),
+                    Color(0xFF3F51B5),
+                    Color(0xFF673AB7)
+                )
+            ),
+            radius = size.width / 2 - strokeWidth,
+            style = Stroke(width = strokeWidth)
+        )
     }
 
 @Preview
@@ -46,8 +64,11 @@ fun Modifier.circledRainbowBorder(strokeWidth: Float): Modifier =
 private fun CircledRainbowBorderPreview() {
     ComposeAndInternalsTheme {
         Box(Modifier.padding(16.dp)) {
-            Box(Modifier.circledRainbowBorder(12f).padding(36.dp)) {
-                Text("Hey")
+            Box(
+                Modifier
+                    .circledRainbowBorder(12f)
+                    .padding(36.dp)) {
+                Text("Slay")
             }
         }
     }
