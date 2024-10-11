@@ -49,9 +49,7 @@ class Exercise9 {
     @Test
     fun test_nested_themes() {
         composeTestRule.setContent {
-            MyAppTheme {
-                Feed(speakers = FakeSpeakerRepository().getSpeakers().take(5))
-            }
+            Feed(speakers = FakeSpeakerRepository().getSpeakers().take(5))
         }
 
         composeTestRule.onRoot().printToLog("Exercise 9")
